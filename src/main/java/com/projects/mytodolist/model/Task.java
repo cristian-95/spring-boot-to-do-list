@@ -8,14 +8,15 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private Long id;
+    private UUID id;
 
     @NotNull
     @Size(min = 4, max = 30)
@@ -23,24 +24,24 @@ public class Task {
     private String description;
 
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private LocalDate createdDate;
+    private LocalDateTime createdDate;
     private boolean completed;
 
     public Task() {
     }
 
-    public Task(String title, String description, LocalDate createdDate) {
+    public Task(String title, String description, LocalDateTime createdDate) {
         this.title = title;
         this.description = description;
         this.createdDate = createdDate;
         this.completed = false;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -60,11 +61,11 @@ public class Task {
         this.description = description;
     }
 
-    public LocalDate getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(LocalDate createdDate) {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
