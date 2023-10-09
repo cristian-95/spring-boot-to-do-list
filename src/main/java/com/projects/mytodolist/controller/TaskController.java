@@ -2,12 +2,12 @@ package com.projects.mytodolist.controller;
 
 import com.projects.mytodolist.model.Task;
 import com.projects.mytodolist.repository.TaskRepository;
-import org.springframework.beans.BeanUtils;
+import com.projects.mytodolist.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.Collections;
+import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,63 +17,43 @@ public class TaskController {
 
     @Autowired
     private TaskRepository repository;
+    @Autowired
+    private TaskService service;
 
     @GetMapping
-    public List<Task> getAllTasks() {
-        return repository.findAll();
+    public ResponseEntity<List<Task>> getAllTasks() {
+        List<Task> tasks = service.getAll();
+        return tasks.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(tasks);
     }
 
     @GetMapping("/{id}")
-    public Task getTaskById(@PathVariable("id") String id) {
-        UUID uuid = UUID.fromString(id);
-        if (repository.existsById(uuid)) {
-            return repository.findAllById(Collections.singleton(uuid)).get(0);
-        }
-        return null;
+    public ResponseEntity<Task> getTaskById(@PathVariable("id") String id) {
+        Task task = service.getById(id);
+        return task == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(task);
     }
 
     @PostMapping
-    public Task createTask(@RequestBody Task task) {
-        task.setCreatedDate(LocalDateTime.now());
-        repository.save(task);
-        return task;
+    public ResponseEntity<Task> createTask(@RequestBody Task task) {
+        Task createdTask = service.create(task);
+        URI uri = service.getURIFromThisRequest(createdTask.getId());
+        return ResponseEntity.created(uri).body(createdTask);
     }
 
     @PutMapping("/{id}")
-    public Task updateTask(@PathVariable("id") String id, @RequestBody Task update) {
-        UUID uuid = UUID.fromString(id);
-
-        if (repository.findById(uuid).isPresent()) {
-            Task task = repository.findById(uuid).get();
-            update.setCreatedDate(task.getCreatedDate());
-            BeanUtils.copyProperties(update, task, "id");
-            repository.save(task);
-            return task;
-        }
-        return null;
+    public ResponseEntity<Task> updateTask(@PathVariable("id") String id, @RequestBody Task update) {
+        Task updated = service.update(UUID.fromString(id), update);
+        return updated == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(updated);
     }
 
     @PutMapping("/{id}/status")
-    public Task updateStatus(@PathVariable("id") String id, @RequestBody Boolean completed) {
-        UUID uuid = UUID.fromString(id);
-        if (repository.findById(uuid).isPresent()) {
-
-            Task task = repository.findById(uuid).get();
-            task.setCompleted(completed);
-            repository.save(task);
-            return task;
-        }
-        return null;
+    public ResponseEntity<Task> updateStatus(@PathVariable("id") String id, @RequestBody Boolean completed) {
+        Task updated = service.updateStatus(UUID.fromString(id), completed);
+        return updated == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
-    public Task deleteTask(@PathVariable("id") String id) {
-        UUID uuid = UUID.fromString(id);
-        if (repository.findById(uuid).isPresent()) {
-            Task task = repository.findById(uuid).get();
-            repository.deleteById(uuid);
-            return task;
-        }
-        return null;
+    public ResponseEntity<Task> deleteTask(@PathVariable("id") String id) {
+        Task deleted = service.delete(UUID.fromString(id));
+        return deleted == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(deleted);
     }
 }

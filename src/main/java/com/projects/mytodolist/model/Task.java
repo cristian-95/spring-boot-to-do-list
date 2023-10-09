@@ -33,6 +33,9 @@ public class Task {
     public Task(String title, String description, LocalDateTime createdDate) {
         this.title = title;
         this.description = description;
+        if (createdDate == null) {
+            this.createdDate = LocalDateTime.now();
+        }
         this.createdDate = createdDate;
         this.completed = false;
     }
