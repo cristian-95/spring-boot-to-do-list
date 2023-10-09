@@ -1,6 +1,21 @@
 # my to-do list
 
 ---
+## Melhorias a fazer
+
+- Tratamento de exceções
+- Testes unitários
+- Melhorar documentação no Swagger
+- Filtragem e paginação de tarefas:
+  - por titulo
+  - por descrição
+  - por status
+  - por data de criação
+- Implementar segurança
+  - criar tabela de usuarios
+
+
+## Proposta de projeto
 
 *(A seguinte proposta de projeto foi gerada utilizando chatGPT para estimular o estudo do desenvolvimento com o Spring Boot)*
 
