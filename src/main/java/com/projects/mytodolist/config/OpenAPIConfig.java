@@ -23,7 +23,8 @@ public class OpenAPIConfig {
                 .contact(contact);
 
         return new OpenAPI().info(info);
-
     }
+
+
 
 }
