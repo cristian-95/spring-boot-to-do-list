@@ -9,7 +9,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,13 +32,14 @@ public class TaskService {
 
     public Task getById(String id) {
         UUID uuid = UUID.fromString(id);
-        if (repository.existsById(uuid)) {
-            return repository.findAllById(Collections.singleton(uuid)).get(0);
+        if (repository.findById(uuid).isPresent()) {
+            return repository.findById(uuid).get();
         }
         return null;
     }
 
     public Task create(Task task) {
+        System.out.println(task);
         task.setCreatedDate(LocalDateTime.now());
         repository.save(task);
         return task;

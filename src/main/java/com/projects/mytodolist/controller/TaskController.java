@@ -42,18 +42,18 @@ public class TaskController {
     @PutMapping("/{id}")
     public ResponseEntity<Task> updateTask(@PathVariable("id") String id, @RequestBody Task update) {
         Task updated = service.update(UUID.fromString(id), update);
-        return updated == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(updated);
+        return updated == null ? ResponseEntity.status(400).build() : ResponseEntity.ok(updated);
     }
 
     @PutMapping("/{id}/status")
     public ResponseEntity<Task> updateStatus(@PathVariable("id") String id, @RequestBody Boolean completed) {
         Task updated = service.updateStatus(UUID.fromString(id), completed);
-        return updated == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(updated);
+        return updated == null ? ResponseEntity.status(400).build() : ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Task> deleteTask(@PathVariable("id") String id) {
         Task deleted = service.delete(UUID.fromString(id));
-        return deleted == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(deleted);
+        return deleted == null ? ResponseEntity.notFound().build() : ResponseEntity.noContent().build();
     }
 }
