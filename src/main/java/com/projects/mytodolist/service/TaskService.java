@@ -2,6 +2,7 @@ package com.projects.mytodolist.service;
 
 import com.projects.mytodolist.model.Task;
 import com.projects.mytodolist.repository.TaskRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,24 +47,23 @@ public class TaskService {
     }
 
     public Task update(UUID id, Task update) {
-        if (repository.findById(id).isPresent()) {
-            Task task = repository.findById(id).get();
-            update.setCreatedDate(task.getCreatedDate());
-            BeanUtils.copyProperties(update, task, "id");
-            repository.save(task);
-            return task;
-        }
-        return null;
+        Task task = getTaskById(id);
+        update.setCreatedDate(task.getCreatedDate());
+        BeanUtils.copyProperties(update, task, "id");
+        repository.save(task);
+        return task;
+    }
+
+    private Task getTaskById(UUID id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Tarefa não encontrada com ID: " + id));
     }
 
     public Task updateStatus(UUID id, Boolean completed) {
-        if (repository.findById(id).isPresent()) {
-            Task task = repository.findById(id).get();
-            task.setCompleted(completed);
-            repository.save(task);
-            return task;
-        }
-        return null;
+        Task task = getTaskById(id);
+        task.setCompleted(completed);
+        repository.save(task);
+        return task;
     }
 
     public Task delete(UUID id) {
