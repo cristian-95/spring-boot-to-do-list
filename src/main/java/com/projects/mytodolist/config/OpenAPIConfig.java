@@ -18,7 +18,7 @@ public class OpenAPIConfig {
 
         Info info = new Info()
                 .title("My to-do List")
-                .description("Um gerenciador de tarefas simples, para fins de estudo")
+                .description("Um gerenciador de tarefas simples, para fins de estudo.")
                 .version("1.0")
                 .contact(contact);
 
