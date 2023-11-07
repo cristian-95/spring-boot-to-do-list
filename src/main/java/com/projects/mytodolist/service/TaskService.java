@@ -33,10 +33,7 @@ public class TaskService {
 
     public Task getById(String id) {
         UUID uuid = UUID.fromString(id);
-        if (repository.findById(uuid).isPresent()) {
-            return repository.findById(uuid).get();
-        }
-        return null;
+        return getTaskById(uuid);
     }
 
     public Task create(Task task) {
@@ -56,7 +53,7 @@ public class TaskService {
 
     private Task getTaskById(UUID id) {
         return repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Tarefa não encontrada com ID: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Tarefa não encontrada."));
     }
 
     public Task updateStatus(UUID id, Boolean completed) {
