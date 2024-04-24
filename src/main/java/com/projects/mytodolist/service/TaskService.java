@@ -1,17 +1,19 @@
 package com.projects.mytodolist.service;
 
+import com.projects.mytodolist.controller.TaskController;
+import com.projects.mytodolist.exception.TaskNotFoundException;
 import com.projects.mytodolist.model.Task;
+import com.projects.mytodolist.model.TaskDTO;
 import com.projects.mytodolist.repository.TaskRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Service
 public class TaskService {
@@ -19,56 +21,54 @@ public class TaskService {
     @Autowired
     private TaskRepository repository;
 
-    public URI getURIFromThisRequest(UUID id) {
-        return ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(id)
-                .toUri();
-    }
-
     public List<Task> getAll() {
-        return repository.findAll();
+        List<Task> taskList = repository.findAll();
+        return taskList.stream().map(t -> t.add(linkTo(methodOn(TaskController.class).getTaskByIdString(t.getId().toString())).withSelfRel())).toList();
     }
 
     public Task getById(String id) {
         UUID uuid = UUID.fromString(id);
-        return getTaskById(uuid);
-    }
-
-    public Task create(Task task) {
-        System.out.println(task);
-        task.setCreatedDate(LocalDateTime.now());
-        repository.save(task);
+        Task task = getById(uuid);
+        task.add(linkTo(methodOn(TaskController.class).getTaskByIdString(task.getId().toString())).withSelfRel());
+        task.add(linkTo(methodOn(TaskController.class).getAllTasks()).withRel("Listagem"));
         return task;
     }
 
-    public Task update(UUID id, Task update) {
-        Task task = getTaskById(id);
+    public Task create(TaskDTO dto) {
+        Task task = new Task(dto);
+        repository.save(task);
+        task.add(linkTo(methodOn(TaskController.class).getTaskById(task.getId())).withSelfRel());
+        return task;
+    }
+
+    public Task update(String id, Task update) {
+        UUID uuid = UUID.fromString(id);
+        Task task = getById(uuid);
         update.setCreatedDate(task.getCreatedDate());
         BeanUtils.copyProperties(update, task, "id");
         repository.save(task);
+        task.add(linkTo(methodOn(TaskController.class).getTaskById(uuid)).withSelfRel());
         return task;
     }
 
-    private Task getTaskById(UUID id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Tarefa não encontrada."));
+    public Task getById(UUID id) {
+        return repository.findById(id).orElseThrow(() -> new TaskNotFoundException("Tarefa não encontrada."));
     }
 
-    public Task updateStatus(UUID id, Boolean completed) {
-        Task task = getTaskById(id);
+    public Task updateStatus(String id, Boolean completed) {
+        UUID uuid = UUID.fromString(id);
+        Task task = getById(uuid);
         task.setCompleted(completed);
         repository.save(task);
+        task.add(linkTo(methodOn(TaskController.class).getTaskById(uuid)).withSelfRel());
         return task;
     }
 
-    public Task delete(UUID id) {
-        if (repository.findById(id).isPresent()) {
-            Task task = repository.findById(id).get();
-            repository.deleteById(id);
-            return task;
-        }
-        return null;
+    public void delete(String id) {
+        UUID uuid = UUID.fromString(id);
+        if (repository.findById(uuid).isPresent()) {
+            Task task = repository.findById(uuid).get();
+            repository.delete(task);
+        } else throw new TaskNotFoundException("Tarefa não encontrada.");
     }
 }

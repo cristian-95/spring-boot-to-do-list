@@ -13,7 +13,7 @@ public class OpenAPIConfig {
     public OpenAPI getInfo() {
         Contact contact = new Contact();
         contact.setName("Cristian");
-        contact.setEmail("nem.cristianrc@gmail.com");
+        contact.setEmail("cristian_santos95@outlook.com");
         contact.setUrl("https://github.com/cristian-95/");
 
         Info info = new Info()

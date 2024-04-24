@@ -7,12 +7,13 @@ import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-public class Task {
+public class Task extends RepresentationModel<Task> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -22,7 +23,6 @@ public class Task {
     @Size(min = 4, max = 30)
     private String title;
     private String description;
-
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDateTime createdDate;
     private boolean completed;
@@ -38,6 +38,13 @@ public class Task {
         }
         this.createdDate = createdDate;
         this.completed = false;
+    }
+
+    public Task(TaskDTO dto) {
+        this.title = dto.title();
+        this.description = dto.description();
+        this.createdDate = dto.createdDate();
+        this.completed = dto.completed();
     }
 
     public UUID getId() {
