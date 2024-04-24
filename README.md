@@ -15,8 +15,8 @@
 
 ## Implementações futuras:
 
-- [X] Melhorar documentação no Swagger
-- [ ] Tratamento de exceções
+- [X] Melhorar documentação no Swagger (Em progresso)
+- [X] Tratamento de exceções (Em progresso)
 - [ ] Filtragem e paginação de tarefas (por titulo, descrição, status, data de criação)
 - [ ] Testes unitários
 - [ ] Implementar segurança (criar tabela de usuarios)
