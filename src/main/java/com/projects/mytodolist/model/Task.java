@@ -43,8 +43,8 @@ public class Task extends RepresentationModel<Task> {
     public Task(TaskDTO dto) {
         this.title = dto.title();
         this.description = dto.description();
-        this.createdDate = dto.createdDate();
-        this.completed = dto.completed();
+        this.createdDate = LocalDateTime.now();
+        this.completed = false;
     }
 
     public UUID getId() {

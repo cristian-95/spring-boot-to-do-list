@@ -5,7 +5,6 @@ import com.projects.mytodolist.exception.TaskNotFoundException;
 import com.projects.mytodolist.model.Task;
 import com.projects.mytodolist.model.TaskDTO;
 import com.projects.mytodolist.repository.TaskRepository;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,11 +40,11 @@ public class TaskService {
         return task;
     }
 
-    public Task update(String id, Task update) {
+    public Task update(String id, TaskDTO dto) {
         UUID uuid = UUID.fromString(id);
         Task task = getById(uuid);
-        update.setCreatedDate(task.getCreatedDate());
-        BeanUtils.copyProperties(update, task, "id");
+        task.setTitle(dto.title() != null ? dto.title() : task.getTitle());
+        task.setDescription(dto.description() != null ? dto.description() : task.getDescription());
         repository.save(task);
         task.add(linkTo(methodOn(TaskController.class).getTaskById(uuid)).withSelfRel());
         return task;

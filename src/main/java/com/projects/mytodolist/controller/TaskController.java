@@ -51,7 +51,7 @@ public class TaskController {
     @Operation(summary = "Registra uma nova tarefa.")
     @ApiResponse(responseCode = "201", description = "Tarefa criada com sucesso.", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Task.class))})
     @PostMapping
-    public ResponseEntity<Task> createTask(@RequestBody TaskDTO dto) {
+    public ResponseEntity<Task> createTask(@RequestBody @Valid TaskDTO dto) {
         Task createdTask = service.create(dto);
         return new ResponseEntity<>(createdTask, HttpStatus.CREATED);
     }
@@ -59,9 +59,9 @@ public class TaskController {
     @Operation(summary = "Modifica uma tarefa.")
     @ApiResponse(responseCode = "200", description = "Operação bem sucedida.", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Task.class))})
     @PutMapping("/{id}")
-    public ResponseEntity<Task> updateTask(@PathVariable("id") String id, @RequestBody Task update) {
+    public ResponseEntity<Task> updateTask(@PathVariable("id") String id, @RequestBody @Valid TaskDTO update) {
         Task updated = service.update(id, update);
-        return updated == null ? ResponseEntity.status(400).build() : ResponseEntity.ok(updated);
+        return ResponseEntity.ok(updated);
     }
 
     @Operation(summary = "Modifica o status de uma tarefa.")

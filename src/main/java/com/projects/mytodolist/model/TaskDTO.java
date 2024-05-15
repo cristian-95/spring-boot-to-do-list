@@ -1,22 +1,12 @@
 package com.projects.mytodolist.model;
 
-import java.time.LocalDateTime;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 public record TaskDTO(
+        @NotNull
+        @Size(min = 4, max = 30)
         String title,
-        String description,
-        LocalDateTime createdDate,
-        Boolean completed
+        String description
 ) {
-    public TaskDTO {
-        if (title == null) {
-            throw new IllegalArgumentException("Toda tarefa deve ter um titulo.");
-        }
-        if (completed == null) {
-            completed = false;
-        }
-        if (createdDate == null) {
-            createdDate = LocalDateTime.now();
-        }
-    }
 }
