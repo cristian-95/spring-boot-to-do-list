@@ -1,0 +1,10 @@
+com/projects/mytodolist/config/OpenAPIConfig.class
+com/projects/mytodolist/repository/TaskRepository.class
+com/projects/mytodolist/service/TaskService.class
+com/projects/mytodolist/model/Task.class
+com/projects/mytodolist/model/TaskDTO.class
+com/projects/mytodolist/exception/TaskNotFoundException.class
+com/projects/mytodolist/controller/TaskController.class
+com/projects/mytodolist/MyToDoListApplication.class
+com/projects/mytodolist/exception/CustomError.class
+com/projects/mytodolist/exception/MyTodoListExceptionHandler.class

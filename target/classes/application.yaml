@@ -1,0 +1,9 @@
+# setup do postgresql
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/todo_list
+    username: ${PG_USER}
+    password: ${PG_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: true

@@ -1,0 +1,10 @@
+/home/cristian/workspace/spring/spring-boot-to-do-list/src/main/java/com/projects/mytodolist/exception/MyTodoListExceptionHandler.java
+/home/cristian/workspace/spring/spring-boot-to-do-list/src/main/java/com/projects/mytodolist/MyToDoListApplication.java
+/home/cristian/workspace/spring/spring-boot-to-do-list/src/main/java/com/projects/mytodolist/model/TaskDTO.java
+/home/cristian/workspace/spring/spring-boot-to-do-list/src/main/java/com/projects/mytodolist/exception/TaskNotFoundException.java
+/home/cristian/workspace/spring/spring-boot-to-do-list/src/main/java/com/projects/mytodolist/config/OpenAPIConfig.java
+/home/cristian/workspace/spring/spring-boot-to-do-list/src/main/java/com/projects/mytodolist/exception/CustomError.java
+/home/cristian/workspace/spring/spring-boot-to-do-list/src/main/java/com/projects/mytodolist/service/TaskService.java
+/home/cristian/workspace/spring/spring-boot-to-do-list/src/main/java/com/projects/mytodolist/controller/TaskController.java
+/home/cristian/workspace/spring/spring-boot-to-do-list/src/main/java/com/projects/mytodolist/model/Task.java
+/home/cristian/workspace/spring/spring-boot-to-do-list/src/main/java/com/projects/mytodolist/repository/TaskRepository.java
