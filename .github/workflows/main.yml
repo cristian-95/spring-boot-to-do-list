@@ -25,7 +25,7 @@ jobs:
 
      - name: Build application
        run: |
-         mvn clean package -Dskiptests -DskipITs
+         mvn clean package -DskipTests -DskipITs
      
      - name: Build docker image
        uses: docker/build-push-action@v5.3.0
