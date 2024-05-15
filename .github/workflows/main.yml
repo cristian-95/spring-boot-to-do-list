@@ -1,3 +1,7 @@
+env:
+  PG_USERNAME: ${{ secrets.PG_USERNAME }}
+  PG_PASSWORD: ${{ secrets.PG_PASSWORD }}
+ 
 name: CI-CD
 on:
   push:
@@ -26,7 +30,4 @@ jobs:
          tags: |
            ${{ secrets.DK_USER }}/spring-boot-to-do-list:{{  github.run_number  }}
            ${{ secrets.DK_USER }}/spring-boot-to-do-list:latest
-         env:
-           PG_USERNAME: ${{ secrets.PG_USERNAME }}
-           PG_PASSWORD: ${{ secrets.PG_PASSWORD }}
- 
+        
