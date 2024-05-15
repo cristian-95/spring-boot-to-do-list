@@ -22,7 +22,7 @@ jobs:
          password: ${{ secrets.DK_PWD }}
          
      - name: Set up JDK 17
-       uses: actions/setup-java@v1
+       uses: actions/setup-java@v3
        with:
          java-version: 17
          distribution: 'adopt'
