@@ -21,11 +21,16 @@ jobs:
          username: ${{ secrets.DK_USER }}
          password: ${{ secrets.DK_PWD }}
          
-     - name: Set up Docker Buildx
-       uses: docker/setup-buildx-action@v1
+     - name: Set up JDK 17
+       uses: actions/setup-java@v1
        with:
-         version: v0.7.0 
-                   
+         java-version: 17
+         distribution: 'adopt'
+         cache: maven
+
+     - name: Build with maven
+       run: mvn clean install -Dskiptests
+         
      - name: Build and push Docker images
        uses: docker/build-push-action@v5.3.0
        with:
