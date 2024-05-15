@@ -28,6 +28,6 @@ jobs:
          file: Dockerfile
          push: true
          tags: |
-           ${{ secrets.DK_USER }}/spring-boot-to-do-list:{{  github.run_number  }}
+           ${{ secrets.DK_USER }}/spring-boot-to-do-list:${{  github.run_number  }}
            ${{ secrets.DK_USER }}/spring-boot-to-do-list:latest
         
